@@ -1,0 +1,13 @@
+package com.example.practiceservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+public class PracticeServiceApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(PracticeServiceApplication.class, args);
+	}
+}

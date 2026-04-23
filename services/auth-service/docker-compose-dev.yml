@@ -1,0 +1,17 @@
+name: auth-dev
+
+services:
+  mysql-auth-dev:
+    image: mysql:8.0
+    container_name: mysql-auth
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: db_auth
+    ports:
+      - "3383:3306"
+    volumes:
+      - mysql_auth_data:/var/lib/mysql
+
+volumes:
+  mysql_auth_data:

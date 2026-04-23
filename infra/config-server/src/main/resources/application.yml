@@ -1,0 +1,13 @@
+server:
+  port: 7071
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: ${CONFIG_REPO_LOCATION:file:///c:/Users/edson/IdeaProjects/PPPs/infra/config-repo/}

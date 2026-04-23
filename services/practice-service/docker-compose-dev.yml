@@ -1,0 +1,17 @@
+name: practice-dev
+
+services:
+  mysql-practice-dev:
+    image: mysql:8.0
+    container_name: mysql-practice
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: db_practice
+    ports:
+      - "3384:3306"
+    volumes:
+      - mysql_practice_data:/var/lib/mysql
+
+volumes:
+  mysql_practice_data:

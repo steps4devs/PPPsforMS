@@ -1,0 +1,51 @@
+name: practice-prod
+
+services:
+  mysql-practice:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PRACTICE_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PRACTICE_MYSQL_DATABASE}
+    ports:
+      - "3392:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${PRACTICE_MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - mysql_practice_prod_data:/var/lib/mysql
+    networks:
+      - practice-int
+
+  practice-service:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql-practice:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+      PRACTICE_DB_HOST: ${PRACTICE_DB_HOST}
+      PRACTICE_DB_PORT: ${PRACTICE_DB_PORT}
+      PRACTICE_DB_NAME: ${PRACTICE_DB_NAME}
+      PRACTICE_DB_USERNAME: ${PRACTICE_DB_USERNAME}
+      PRACTICE_DB_PASSWORD: ${PRACTICE_DB_PASSWORD}
+    ports:
+      - "8084:8084"
+    networks:
+      - practice-int
+      - ms-net
+
+volumes:
+  mysql_practice_prod_data:
+
+networks:
+  ms-net:
+    external: true
+    name: ms-net
+  practice-int:
+    name: practice-int

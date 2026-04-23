@@ -1,0 +1,54 @@
+name: profile-prod
+
+services:
+  mysql-profile:
+    image: mysql:8.4
+    container_name: profile-prod-mysql-profile-1
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PROFILE_DB_PASSWORD}
+      MYSQL_DATABASE: ${PROFILE_DB_NAME}
+    ports:
+      - "3395:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${PROFILE_DB_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - profile-int
+    volumes:
+      - profile-prod_mysql_profile_prod_data:/var/lib/mysql
+
+  profile-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 2
+    restart: unless-stopped
+    depends_on:
+      mysql-profile:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+      PROFILE_DB_HOST: mysql-profile
+      PROFILE_DB_NAME: ${PROFILE_DB_NAME}
+      PROFILE_DB_USERNAME: ${PROFILE_DB_USERNAME}
+      PROFILE_DB_PASSWORD: ${PROFILE_DB_PASSWORD}
+    ports:
+      - "8087-8089:8085"
+    networks:
+      - profile-int
+      - ms-net
+
+networks:
+  profile-int:
+    name: profile-int
+  ms-net:
+    external: true
+
+volumes:
+  profile-prod_mysql_profile_prod_data:
+    name: profile-prod_mysql_profile_prod_data

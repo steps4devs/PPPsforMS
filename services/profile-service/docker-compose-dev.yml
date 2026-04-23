@@ -1,0 +1,16 @@
+services:
+  mysql-profile:
+    image: mysql:8.4
+    container_name: mysql-profile
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_profile
+    ports:
+      - "3385:3306"
+    volumes:
+      - profile-dev_mysql_profile_dev_data:/var/lib/mysql
+
+volumes:
+  profile-dev_mysql_profile_dev_data:
+    name: profile-dev_mysql_profile_dev_data

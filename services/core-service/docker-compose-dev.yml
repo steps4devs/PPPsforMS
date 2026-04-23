@@ -1,0 +1,16 @@
+services:
+  mysql-core:
+    image: mysql:8.4
+    container_name: mysql-core
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_core
+    ports:
+      - "3386:3306"
+    volumes:
+      - core-dev_mysql_core_dev_data:/var/lib/mysql
+
+volumes:
+  core-dev_mysql_core_dev_data:
+    name: core-dev_mysql_core_dev_data
