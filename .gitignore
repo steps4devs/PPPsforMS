@@ -36,3 +36,8 @@ Thumbs.db
 *.log
 logs/
 **/logs/
+
+# Documentación privada
+DOCUMENTACION_UNIDAD_1.md
+EXPLICACION_ARQUITECTURA.md
+"ENTREGABLE UNIDAD 1.docx"
