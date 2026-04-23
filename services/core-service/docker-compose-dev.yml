@@ -4,7 +4,7 @@ services:
     container_name: mysql-core
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: db_core
     ports:
       - "3386:3306"
