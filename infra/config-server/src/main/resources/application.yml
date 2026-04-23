@@ -10,4 +10,4 @@ spring:
     config:
       server:
         native:
-          search-locations: ${CONFIG_REPO_LOCATION:file:///c:/Users/edson/IdeaProjects/PPPs/infra/config-repo/}
+          search-locations: ${CONFIG_REPO_LOCATION:file:${user.dir}/../config-repo/}
