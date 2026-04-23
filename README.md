@@ -44,7 +44,7 @@ cd infra/config-server
 mvn spring-boot:run -Dspring-boot.run.profiles=native
 
 # 2. Registry Server (Eureka)
-cd ../registry-server
+cd ../registry-serverestoy
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 # 3. API Gateway
